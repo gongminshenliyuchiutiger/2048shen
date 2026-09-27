@@ -43,31 +43,31 @@
 
 /* 明亮主題模式 (Light Mode) 覆寫變數 */
 body[data-theme="light"] {
-  --bg-color: #f1f5f9;
-  --bg-gradient: linear-gradient(135deg, #faf8f5 0%, #f3ede2 50%, #e8e3d9 100%);
-  --panel-bg: rgba(255, 255, 255, 0.9);
-  --panel-border: rgba(0, 0, 0, 0.08);
-  --panel-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+  --bg-color: #faf8ef;
+  --bg-gradient: linear-gradient(135deg, #faf8f5 0%, #f4ede4 50%, #eae2d6 100%);
+  --panel-bg: rgba(255, 255, 255, 0.92);
+  --panel-border: rgba(187, 173, 160, 0.25);
+  --panel-shadow: 0 4px 18px rgba(119, 110, 101, 0.12);
   --board-bg: #bbada0;
   --board-border: rgba(0, 0, 0, 0.05);
   --cell-bg: rgba(238, 228, 218, 0.45);
-  --text-main: #1e293b;
-  --text-muted: #64748b;
-  --brand-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #db2777 100%);
-  --brand-glow: 0 4px 18px rgba(79, 70, 229, 0.25);
+  --text-main: #776e65;
+  --text-muted: #8f7a66;
+  --brand-gradient: linear-gradient(135deg, #776e65 0%, #594d40 40%, #c47c16 80%, #edc22e 100%);
+  --brand-glow: 0 2px 6px rgba(119, 110, 101, 0.2);
 
-  --primary-color: #4f46e5;
-  --primary-hover: #4338ca;
-  --primary-shadow: 0 6px 16px rgba(79, 70, 229, 0.35);
+  --primary-color: #8f7a66;
+  --primary-hover: #7c6a58;
+  --primary-shadow: 0 6px 16px rgba(143, 122, 102, 0.35);
 
   --secondary-bg: #ffffff;
-  --secondary-hover: #f8fafc;
-  --secondary-color: #334155;
-  --secondary-border: rgba(0, 0, 0, 0.12);
+  --secondary-hover: #fcfbf9;
+  --secondary-color: #776e65;
+  --secondary-border: rgba(187, 173, 160, 0.3);
 
-  --accent-gold: #d97706;
-  --accent-neon: #0284c7;
-  --modal-bg: rgba(255, 255, 255, 0.94);
+  --accent-gold: #f59e0b;
+  --accent-neon: #d97706;
+  --modal-bg: rgba(250, 248, 239, 0.95);
 }
 
 /* 全域重設 */
@@ -130,6 +130,17 @@ body {
   text-shadow: var(--brand-glow);
   margin: 0;
   transition: all 0.35s ease;
+}
+
+/* 亮色模式專屬標題風格 (經典 2048 摩卡暖棕融入耀金高光) */
+body[data-theme="light"] .brand-title {
+  background: linear-gradient(135deg, #776e65 0%, #5a4f43 45%, #c87a14 82%, #edc22e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+  filter: drop-shadow(0 2px 4px rgba(119, 110, 101, 0.22));
+  font-weight: 800;
+  letter-spacing: 0.5px;
 }
 
 /* 分數面板 */
