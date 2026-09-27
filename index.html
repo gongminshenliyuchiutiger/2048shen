@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>2048 Shen</title>
+  
+  <!-- Google 字型 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome 6 圖標庫 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+  <!-- 主要樣式表 -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="game-wrapper">
+    <!-- 頂部導覽與標題區 -->
+    <header class="game-header">
+      <div class="header-top">
+        <h1 class="brand-title">2048 Shen</h1>
+        <div class="scores-container">
+          <div class="score-card">
+            <span class="score-label"><i class="fa-solid fa-bolt"></i> 目前分數</span>
+            <span class="score-value" id="current-score">0</span>
+            <div class="score-addition" id="score-addition">+0</div>
+          </div>
+          <div class="score-card best-card">
+            <span class="score-label"><i class="fa-solid fa-trophy"></i> 最高紀錄</span>
+            <span class="score-value" id="best-score">0</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 遊戲控制按鈕列 -->
+      <div class="header-controls">
+        <p class="game-intro">滑動或使用方向鍵合併方塊，挑戰組出 <strong>2048</strong>！</p>
+        <div class="action-buttons">
+          <button id="btn-theme-toggle" class="btn btn-secondary btn-icon-only" title="切換明暗模式" aria-label="切換明暗模式">
+            <i class="fa-solid fa-moon" id="theme-icon"></i>
+          </button>
+          <button id="btn-undo" class="btn btn-secondary btn-icon-only" title="復原上一步" aria-label="復原">
+            <i class="fa-solid fa-rotate-left"></i>
+          </button>
+          <button id="btn-restart" class="btn btn-primary btn-icon-only" title="重新開始新遊戲" aria-label="新遊戲">
+            <i class="fa-solid fa-rotate-right"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- 遊戲主要棋盤容器 -->
+    <main class="game-main">
+      <div class="grid-container" id="grid-container">
+        <!-- 背景 4x4 儲存格 -->
+        <div class="grid-row">
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+        </div>
+        <div class="grid-row">
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+        </div>
+        <div class="grid-row">
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+        </div>
+        <div class="grid-row">
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+        </div>
+
+        <!-- 動態數字方塊容器 -->
+        <div class="tile-container" id="tile-container"></div>
+
+        <!-- 遊戲結束/獲勝遮罩彈窗 -->
+        <div class="game-message" id="game-message">
+          <div class="message-content">
+            <div class="message-icon" id="message-icon">
+              <i class="fa-solid fa-trophy"></i>
+            </div>
+            <h2 id="message-text">恭喜過關！</h2>
+            <p id="message-subtext">你成功合成了 2048 方塊！</p>
+            <div class="message-actions">
+              <button id="btn-keep-going" class="btn btn-secondary">
+                <i class="fa-solid fa-forward-step"></i>
+                <span>繼續挑戰</span>
+              </button>
+              <button id="btn-try-again" class="btn btn-primary">
+                <i class="fa-solid fa-arrow-rotate-right"></i>
+                <span>再來一局</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 手機觸控操作輔助虛擬按鍵 -->
+      <div class="touch-controls">
+        <button class="touch-btn touch-up" data-dir="up" aria-label="向上滑動">
+          <i class="fa-solid fa-chevron-up"></i>
+        </button>
+        <div class="touch-middle">
+          <button class="touch-btn touch-left" data-dir="left" aria-label="向左滑動">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <div class="touch-center-hint">
+            <i class="fa-solid fa-hand-pointer"></i>
+          </div>
+          <button class="touch-btn touch-right" data-dir="right" aria-label="向右滑動">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+        <button class="touch-btn touch-down" data-dir="down" aria-label="向下滑動">
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+      </div>
+
+      <!-- 操作技巧提示 -->
+      <aside class="game-instructions">
+        <h3><i class="fa-solid fa-gamepad"></i> 操作方式</h3>
+        <p><i class="fa-solid fa-keyboard"></i> <strong>鍵盤：</strong> 使用 <strong>方向鍵（↑ ↓ ← →）</strong> 或 <strong>W A S D</strong> 移動方塊。</p>
+        <p><i class="fa-solid fa-mobile-screen-button"></i> <strong>觸控螢幕：</strong> 支援在棋盤上<strong>任意方向滑動</strong>或使用上方虛擬方向鍵。</p>
+      </aside>
+    </main>
+
+    <!-- 頁尾版權資訊 -->
+    <footer class="game-footer">
+      <p class="copyright-text">
+        <i class="fa-regular fa-copyright"></i> Copyright © Liyuchiutiger Gongminshen
+      </p>
+    </footer>
+  </div>
+
+  <!-- 網頁左下角吉祥物（支援隨意拖曳與霓虹發光抖動懸停） -->
+  <div class="mascot-widget" id="mascot-widget" title="拖曳我到任何地方！">
+    <div class="mascot-drag-handle">
+      <i class="fa-solid fa-up-down-left-right"></i>
+    </div>
+    <img src="image/LiyuChillGuy.svg" alt="LiyuChillGuy 吉祥物" class="mascot-avatar" id="mascot-img" draggable="false">
+  </div>
+
+  <!-- 遊戲腳本 -->
+  <script src="script.js"></script>
+</body>
+</html>
